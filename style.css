@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", sans-serif;
   background-color: var(--primary);
   color: var(--light);
   display: flex;
@@ -14,14 +14,8 @@ body {
   justify-content: center;
   min-height: 100vh;
   margin: 0;
-  overflow: hidden;
 }
 
-h1 {
-  margin-bottom: 20px;
-}
-
-/* Container Roda */
 .wheel-container {
   position: relative;
   width: 350px;
@@ -32,141 +26,86 @@ h1 {
 canvas {
   border-radius: 50%;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  transition-timing-function: cubic-bezier(
-    0.25,
-    0.1,
-    0.25,
-    1
-  ); /* Easing default */
+  border: 5px solid white;
 }
 
-/* Jarum Penunjuk */
 .pointer {
   position: absolute;
-  top: -10px;
+  top: -15px;
   left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-  border-top: 30px solid var(--accent);
+  border-top: 40px solid var(--accent);
   z-index: 10;
-  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
 }
 
-/* Tombol */
 .controls {
   display: flex;
   gap: 15px;
 }
-
 button {
   padding: 12px 24px;
-  font-size: 16px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
-  transition: transform 0.1s;
 }
-
-button:active {
-  transform: scale(0.95);
-}
-
-#settingsBtn:hover {
-  cursor: pointer;
-}
-
 .btn-spin {
   background-color: var(--accent);
   color: white;
-  box-shadow: 0 4px 0 #c0392b;
 }
 .btn-settings {
   background-color: var(--light);
   color: var(--primary);
-  box-shadow: 0 4px 0 #bdc3c7;
 }
-
 button:disabled {
-  background-color: #95a5a6;
+  opacity: 0.5;
   cursor: not-allowed;
-  box-shadow: none;
 }
 
-/* MODAL STYLES */
+/* MODAL */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 100;
   opacity: 0;
   visibility: hidden;
   transition: 0.3s;
+  z-index: 100;
 }
-
 .modal-overlay.active {
   opacity: 1;
   visibility: visible;
 }
-
 .modal-content {
   background: white;
-  color: var(--primary);
+  color: #333;
   padding: 25px;
   border-radius: 10px;
   width: 90%;
   max-width: 400px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
   text-align: center;
 }
-
-.modal-content h2 {
-  margin-top: 0;
-}
-
 textarea {
   width: 100%;
-  height: 150px;
-  margin-bottom: 15px;
+  height: 120px;
+  margin: 10px 0;
+  font-family: monospace;
+}
+.info-text {
+  font-size: 0.8em;
+  color: #666;
+  background: #eee;
   padding: 10px;
-  border: 1px solid #bdc3c7;
   border-radius: 5px;
-  resize: vertical;
-  box-sizing: border-box;
-}
-
-input[type="number"] {
-  width: 60px;
-  padding: 5px;
-  margin-bottom: 15px;
-}
-
-/* RESULT ALERT STYLE */
-.result-box {
-  font-size: 4em;
-  font-weight: bold;
-  color: var(--accent);
-  margin: 20px 0;
-  animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-}
-
-@keyframes popIn {
-  0% {
-    transform: scale(0);
-  }
-  80% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
+  text-align: left;
 }

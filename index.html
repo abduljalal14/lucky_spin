@@ -8,11 +8,14 @@
 </head>
 <body>
 
-    <h1 id="settingsBtn">Lucky Spin SM Putra</h1>
+    <h1 id="settingsBtn">Lucky Spin</h1>
 
     <div class="wheel-container">
-        <div class="pointer"></div>
-        <canvas id="wheelCanvas" width="350" height="350"></canvas>
+        <div class="pointer-wrapper">
+            <div class="pointer"></div>
+        </div>
+
+        <canvas id="wheelCanvas" width="500" height="500"></canvas>
     </div>
 
     <div class="controls">
@@ -30,9 +33,16 @@
             <textarea id="itemsInput"></textarea>
             <label>Durasi Spin (detik):</label><br>
             <input type="number" id="durationInput" value="4" min="1">
-            <br><br>
+            <br>
+            <div class="info-text">
+                <b>Rumus Peluang</b><br>
+                P(A) = n(A) / n(S)<br>
+                Peluang = Bobot Item / Total Bobot
+            </div>
+            <br>
             <button class="btn-spin" id="saveSettingsBtn">Simpan</button>
             <button class="btn-settings" onclick="toggleModal('settingsModal', false)">Batal</button>
+            
         </div>
     </div>
 

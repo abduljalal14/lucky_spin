@@ -18,8 +18,8 @@ body {
 
 .wheel-container {
   position: relative;
-  width: 350px;
-  height: 350px;
+  width: 500px;
+  height: 500px;
   margin-bottom: 30px;
 }
 
@@ -29,17 +29,35 @@ canvas {
   border: 5px solid white;
 }
 
-.pointer {
+.pointer-wrapper {
   position: absolute;
-  top: -15px;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.pointer-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-  border-top: 40px solid var(--accent);
-  z-index: 10;
+  border-top: 40px solid rgba(0, 0, 0, 0.35);
+}
+
+.pointer {
+  position: relative;
+  top: 2px;
+  width: 0;
+  height: 0;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-top: 36px solid var(--accent);
 }
 
 .controls {

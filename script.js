@@ -35,26 +35,28 @@ function loadData() {
 function drawWheel() {
   const num = segments.length;
   const arc = (Math.PI * 2) / num;
-  const centerX = 175,
-    centerY = 175;
+  const centerX = 250,
+    centerY = 250;
 
-  ctx.clearRect(0, 0, 350, 350);
+  ctx.clearRect(0, 0, 500, 500);
   segments.forEach((s, i) => {
     const angle = i * arc;
     ctx.beginPath();
     ctx.fillStyle = colors[i % colors.length];
     ctx.moveTo(centerX, centerY);
-    ctx.arc(centerX, centerY, 175, angle, angle + arc);
+    ctx.arc(centerX, centerY, 250, angle, angle + arc);
     ctx.fill();
     ctx.stroke();
 
     ctx.save();
     ctx.translate(centerX, centerY);
     ctx.rotate(angle + arc / 2);
+    ctx.rotate(Math.PI / 2);
     ctx.textAlign = "right";
     ctx.fillStyle = "white";
     ctx.font = "bold 18px Arial";
-    ctx.fillText(s.text, 150, 8);
+    //ctx.fillText(s.text, 150, 8);
+    ctx.fillText(s.text, 0, -250 + 30);
     ctx.restore();
   });
 }

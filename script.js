@@ -28,6 +28,11 @@ function loadData() {
         { text: "3", weight: 1 },
         { text: "4", weight: 1 },
         { text: "5", weight: 10 }, // Nomor 5 lebih sering muncul
+        { text: "6", weight: 1 }, // Nomor 5 lebih sering muncul
+        { text: "7", weight: 1 }, // Nomor 5 lebih sering muncul
+        { text: "8", weight: 1 }, // Nomor 5 lebih sering muncul
+        { text: "9", weight: 1 }, // Nomor 5 lebih sering muncul
+        { text: "10", weight: 1 }, // Nomor 5 lebih sering muncul
       ];
   spinDuration = dur ? parseInt(dur) : 4;
 }

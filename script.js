@@ -83,6 +83,9 @@ function spin() {
   isSpinning = true;
   spinBtn.disabled = true;
 
+  // Play spin sound
+  document.getElementById('spinSound').play();
+
   // 1. Tentukan siapa pemenangnya secara matematis DULU
   const winnerIndex = getWeightedRandom();
 
@@ -113,6 +116,8 @@ function spin() {
     spinBtn.disabled = false;
     document.getElementById("resultValue").innerText =
       segments[winnerIndex].text;
+    // Play result sound
+    document.getElementById('resultSound').play();
     toggleModal("resultModal", true);
   }, spinDuration * 1000);
 }

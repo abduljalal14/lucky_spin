@@ -116,6 +116,8 @@ function spin() {
     spinBtn.disabled = false;
     document.getElementById("resultValue").innerText =
       segments[winnerIndex].text;
+    // Stop spin sound
+    document.getElementById('spinSound').pause();
     // Play result sound
     document.getElementById('resultSound').play();
     toggleModal("resultModal", true);

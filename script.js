@@ -15,10 +15,26 @@ function loadData() {
   segments = stored
     ? JSON.parse(stored)
     : [
-        { text: "1", weight: 5 },
-        { text: "2", weight: 5 },
-        { text: "3", weight: 0 }, // Contoh setting 0 (tidak akan muncul)
-        { text: "4", weight: 5 }
+        { text: "1", weight: 150},
+        { text: "2", weight: 6 },
+        { text: "3", weight: 5 },
+        { text: "4", weight: 24 },
+        { text: "5", weight: 7 },
+        { text: "6", weight: 4 },
+        { text: "7", weight: 50 },
+        { text: "8", weight: 14 },
+        { text: "9", weight: 7 },
+        { text: "10", weight: 23 },
+        { text: "11", weight: 33 },
+        { text: "12", weight: 24 },
+        { text: "13", weight: 5 },
+        { text: "14", weight: 5 },
+        { text: "15", weight: 4 },
+        { text: "16", weight: 7 },
+        { text: "17", weight: 6 },
+        { text: "18", weight: 7 },
+        { text: "19", weight: 24 },
+        { text: "20", weight: 6 }
       ];
   spinDuration = dur ? parseInt(dur) : 4;
 }
@@ -46,7 +62,7 @@ function drawWheel() {
     ctx.fillStyle = "white";
     ctx.font = "bold 18px Arial";
     // Menampilkan Teks dan Sisa Bobot di visual wheel
-    ctx.fillText(`${s.text} (${s.weight})`, 0, -250 + 40);
+    ctx.fillText(`${s.text}`, 0, -250 + 40);
     ctx.restore();
   });
 }

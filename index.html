@@ -24,22 +24,10 @@
 
     <div class="modal-overlay" id="settingsModal">
         <div class="modal-content">
-            <h3>Pengaturan Peluang</h3>
-            <div class="info-text">
-                Format: <b>Nama:Bobot</b><br>
-                Zonk:100 (Sering muncul)<br>
-                Emas:1 (Jarang muncul)
-            </div>
+            <h3>Pengaturan Jumlah Hadiah</h3>
             <textarea id="itemsInput"></textarea>
             <label>Durasi Spin (detik):</label><br>
             <input type="number" id="durationInput" value="4" min="1">
-            <br>
-            <div class="info-text">
-                <b>Rumus Peluang</b><br>
-                P(A) = n(A) / n(S)<br>
-                Peluang = Bobot Item / Total Bobot
-            </div>
-            <br>
             <button class="btn-spin" id="saveSettingsBtn">Simpan</button>
             <button class="btn-settings" onclick="toggleModal('settingsModal', false)">Batal</button>
             

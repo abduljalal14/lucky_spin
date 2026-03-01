@@ -28,6 +28,10 @@
             <textarea id="itemsInput"></textarea>
             <label>Durasi Spin (detik):</label><br>
             <input type="number" id="durationInput" value="4" min="1">
+            <div>
+                <button class="btn-settings" id="connectArduinoBtn" type="button">Hubungkan Push Button</button>
+                <p id="serialStatus">Serial: belum terhubung</p>
+            </div>
             <button class="btn-spin" id="saveSettingsBtn">Simpan</button>
             <button class="btn-settings" onclick="toggleModal('settingsModal', false)">Batal</button>
             
@@ -37,7 +41,7 @@
     <div class="modal-overlay" id="resultModal">
         <div class="modal-content">
             <h2 id="resultValue" style="font-size: 2.5em; color: var(--accent);">HASIL</h2>
-            <button class="btn-spin" onclick="toggleModal('resultModal', false)">TUTUP</button>
+            <button class="btn-spin" id="closeResultBtn" onclick="toggleModal('resultModal', false)">TUTUP</button>
         </div>
     </div>
     <script src="script.js"></script>

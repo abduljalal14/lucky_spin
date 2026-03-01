@@ -1,13 +1,26 @@
 const canvas = document.getElementById("wheelCanvas");
 const ctx = canvas.getContext("2d");
 const spinBtn = document.getElementById("spinBtn");
+const connectArduinoBtn = document.getElementById("connectArduinoBtn");
+const serialStatus = document.getElementById("serialStatus");
+const resultModal = document.getElementById("resultModal");
+const closeResultBtn = document.getElementById("closeResultBtn");
 
 let segments = [];
 let spinDuration = 4;
 let currentRotation = 0;
 let isSpinning = false;
+let serialPort = null;
+let serialReader = null;
+let serialReading = false;
 
 const colors = ["#e74c3c", "#3498db", "#f1c40f", "#2ecc71", "#9b59b6", "#e67e22", "#1abc9c"];
+
+function setSerialStatus(text, isError = false) {
+  if (!serialStatus) return;
+  serialStatus.textContent = text;
+  serialStatus.style.color = isError ? "#e74c3c" : "";
+}
 
 function loadData() {
   const stored = localStorage.getItem("spin_v2_data");
@@ -94,7 +107,10 @@ function spin() {
   isSpinning = true;
   spinBtn.disabled = true;
 
-  document.getElementById('spinSound').play();
+  const spinSound = document.getElementById("spinSound");
+  spinSound.pause();
+  spinSound.currentTime = 0;
+  spinSound.play();
 
   const sliceDeg = 360 / segments.length;
   const targetItemCenter = winnerIndex * sliceDeg + sliceDeg / 2;
@@ -127,10 +143,104 @@ function spin() {
     // Gambar ulang wheel untuk memperbarui teks angka peluang di dalam roda
     drawWheel();
 
-    document.getElementById('spinSound').pause();
+    spinSound.pause();
     document.getElementById('resultSound').play();
     toggleModal("resultModal", true);
   }, spinDuration * 1000);
+}
+
+function handlePushButtonTrigger() {
+  if (resultModal && resultModal.classList.contains("active")) {
+    if (closeResultBtn) closeResultBtn.click();
+    return;
+  }
+
+  spin();
+}
+
+async function startSerialReader() {
+  if (!serialPort || !serialPort.readable) return;
+  if (serialReading) return;
+
+  serialReading = true;
+  const decoder = new TextDecoderStream();
+  const closed = serialPort.readable.pipeTo(decoder.writable).catch(() => {});
+  const inputStream = decoder.readable;
+  serialReader = inputStream.getReader();
+  let buffer = "";
+
+  try {
+    while (serialReading) {
+      const { value, done } = await serialReader.read();
+      if (done) break;
+
+      buffer += value;
+      const lines = buffer.split(/\r?\n/);
+      buffer = lines.pop() || "";
+
+      for (const line of lines) {
+        if (line.trim().toUpperCase() === "SPIN") {
+          handlePushButtonTrigger();
+        }
+      }
+    }
+  } catch (err) {
+    setSerialStatus(`Serial error: ${err.message}`, true);
+  } finally {
+    if (serialReader) {
+      serialReader.releaseLock();
+      serialReader = null;
+    }
+    await closed;
+    serialReading = false;
+  }
+}
+
+async function openSerialPort(port) {
+  if (!port) return;
+
+  if (!port.readable) {
+    await port.open({ baudRate: 9600 });
+  }
+
+  serialPort = port;
+  setSerialStatus("Serial: terhubung");
+
+  if (connectArduinoBtn) {
+    connectArduinoBtn.textContent = "Hubungkan Ulang Push Button";
+  }
+
+  startSerialReader();
+}
+
+async function connectSerialWithPrompt() {
+  if (!("serial" in navigator)) {
+    alert("Browser ini belum mendukung Web Serial.");
+    setSerialStatus("Serial: browser tidak mendukung", true);
+    return;
+  }
+
+  try {
+    const port = await navigator.serial.requestPort();
+    await openSerialPort(port);
+  } catch (err) {
+    if (err.name !== "NotFoundError") {
+      setSerialStatus(`Serial gagal: ${err.message}`, true);
+    }
+  }
+}
+
+async function autoReconnectSerial() {
+  if (!("serial" in navigator)) return;
+
+  try {
+    const ports = await navigator.serial.getPorts();
+    if (ports.length > 0) {
+      await openSerialPort(ports[0]);
+    }
+  } catch (err) {
+    setSerialStatus(`Serial auto-connect gagal: ${err.message}`, true);
+  }
 }
 
 // UI & SETTINGS (Tidak berubah banyak, hanya penyesuaian filter)
@@ -169,5 +279,23 @@ document.getElementById("saveSettingsBtn").addEventListener("click", () => {
 });
 
 spinBtn.addEventListener("click", spin);
+
+if (connectArduinoBtn) {
+  connectArduinoBtn.addEventListener("click", connectSerialWithPrompt);
+}
+
+if ("serial" in navigator) {
+  navigator.serial.addEventListener("disconnect", (event) => {
+    if (event.target === serialPort || event.port === serialPort) {
+      serialReading = false;
+      serialPort = null;
+      setSerialStatus("Serial: terputus", true);
+    }
+  });
+} else {
+  setSerialStatus("Serial: browser tidak mendukung", true);
+}
+
 loadData();
 drawWheel();
+autoReconnectSerial();

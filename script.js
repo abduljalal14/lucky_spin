@@ -70,12 +70,20 @@ function drawWheel() {
     ctx.save();
     ctx.translate(centerX, centerY);
     ctx.rotate(angle + arc / 2);
-    ctx.rotate(Math.PI / 2);
-    ctx.textAlign = "center"; // Diubah ke center agar lebih rapi
+
+    // ctx.rotate(Math.PI / 2);
+    // ctx.textAlign = "center"; // Diubah ke center agar lebih rapi
+    // ctx.fillStyle = "white";
+    // ctx.font = "bold 18px Arial";
+    // // Menampilkan Teks dan Sisa Bobot di visual wheel
+    // ctx.fillText(`${s.text}`, 0, -250 + 40);
+
+    ctx.textAlign = "right";
+    ctx.textBaseline = "middle";
     ctx.fillStyle = "white";
-    ctx.font = "bold 18px Arial";
-    // Menampilkan Teks dan Sisa Bobot di visual wheel
-    ctx.fillText(`${s.text}`, 0, -250 + 40);
+    ctx.font = "bold 14px Arial";
+    // Anchor di tepi luar, lalu teks berjalan ke arah pusat
+    ctx.fillText(`${s.text}`, 250 - 18, 0);
     ctx.restore();
   });
 }
